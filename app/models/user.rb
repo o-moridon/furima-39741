@@ -4,14 +4,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze
+
   validates :nickname,                  presence: true
-  validates :password, format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)/, message: "must include both letters and numbers" }
-  validates :password_confirmation,     presence: true
+  validates :password, format: { with:VALID_PASSWORD_REGEX }
   validates :family_name,
-    format: { with: /\A[ぁ-ゔァ-ヴ一-龠々ー]+\z/, message: "can't be half-width characters" },
+    format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: "can't be half-width characters" },
     presence: true
   validates :first_name,
-    format: { with: /\A[ぁ-ゔァ-ヴ一-龠々ー]+\z/, message: "can't be half-width characters"},
+    format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: "can't be half-width characters"},
     presence: true
   validates :family_name_kana,
     format: { with: /\A([ァ-ン]|ー)+\z/, message: "can't be full-width characters"},
