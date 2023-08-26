@@ -15,10 +15,10 @@ class User < ApplicationRecord
     format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: "can't be half-width characters"},
     presence: true
   validates :family_name_kana,
-    format: { with: /\A([ァ-ン]|ー)+\z/, message: "can't be full-width characters"},
+    format: { with: /\A[ァ-ヶー]+\z/u, message: "can't be full-width characters"},
     presence: true
   validates :first_name_kana,
-    format: { with: /\A([ァ-ン]|ー)+\z/, message: "can't be full-width characters"},
+    format: { with: /\A[ァ-ヶー]+\z/u, message: "can't be full-width characters"},
     presence: true
   validates :birthday,
     presence: true
