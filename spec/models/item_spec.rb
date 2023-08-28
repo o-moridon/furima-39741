@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   before do
-    @item = FactoryBot.build(:item)
+    user = FactoryBot.create(:user)
+    @item = FactoryBot.build(:item, user_id: user.id)
   end
 
   describe '商品の掲載' do
@@ -81,6 +82,11 @@ RSpec.describe Item, type: :model do
         @item.text = '1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn'
         @item.valid?
         expect(@item.errors.full_messages).to include("Text is too long (maximum is 1000 characters)")
+      end
+      it 'ユーザーが紐づいていない場合は掲載できない' do
+        @item.user_id = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
       end
     end
   end
