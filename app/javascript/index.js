@@ -5,7 +5,7 @@ window.addEventListener('load', () => {
   priceInput.addEventListener('input', function(){
     const Rate = 0.1;
     const price = priceInput.value;
-    const commission = Math.round(price * Rate);
+    const commission = Math.floor(price * Rate);
     const totalPrise = price - commission;
     const feeDisplay = document.getElementById("add-tax-price");
     const totalDisplay = document.getElementById("profit");

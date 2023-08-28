@@ -55,12 +55,22 @@ RSpec.describe Item, type: :model do
       it '販売価格が空では掲載できない' do
         @item.price = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price can't be blank", "Price is not a number")
+        expect(@item.errors.full_messages).to include("Price can't be blank")
       end
-      it '販売価格が全角では掲載できない' do
-        @item.price = '３００'
+      it '販売価格に半角数字以外が含まれる場合は掲載できない' do
+        @item.price = '１1000'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not a number")
+        expect(@item.errors.full_messages).to include("Price Half-width number")
+      end
+      it '販売価格が300円未満では掲載できない' do
+        @item.price = '299'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is out of setting range")
+      end
+      it '販売価格が1千万円以上では掲載できない' do
+        @item.price = 10000000
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is out of setting range")
       end
       it '商品名が41文字以上では掲載できない' do
         @item.title = '1234567890-qwertyuiop@asdfghjkl;:zxcvbnm,./123456qwertyuasdfghzxcvbn'
