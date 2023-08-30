@@ -3,6 +3,7 @@ class ItemsController < ApplicationController
 
 
   def index
+    @items = Item.order(created_at: :desc)
   end
 
   def new
@@ -16,6 +17,10 @@ class ItemsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @items = Item.find(params[:id])
   end
 
   private
