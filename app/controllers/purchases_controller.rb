@@ -1,6 +1,6 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, only[:new, :create]
+  before_action :set_item, only: [:new, :create]
 
   def new
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
