@@ -12,6 +12,10 @@ RSpec.describe PurchaseAddress, type: :model do
       it '商品を購入できる' do
         expect(@purchase_address).to be_valid
       end
+      it '建物名が空でも購入で着る' do
+        @purchase_address.building_name = ''
+        expect(@purchase_address).to be_valid
+      end
     end
     context '商品が購入できない場合' do
       it 'クレジット情報が空白だと購入できない' do
@@ -54,7 +58,26 @@ RSpec.describe PurchaseAddress, type: :model do
         @purchase_address.valid?
         expect(@purchase_address.errors.full_messages).to include("Phone number is invalid")
       end
-
+      it '電話番号が9桁以下では購入できない' do
+        @purchase_address.phone_number = '012345678'
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Phone number is invalid")
+      end
+      it '電話番号が12桁以上では購入できない' do
+        @purchase_address.phone_number = '0901234567811'
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Phone number is invalid")
+      end
+      it 'userが紐づいていなければ購入できない' do
+        @purchase_address.user_id = nil
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("User can't be blank")
+      end
+      it 'itemが紐づいいていなければ購入できない' do
+        @purchase_address.item_id = nil
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Item can't be blank")
+      end
     end
   end
 end
