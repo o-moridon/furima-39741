@@ -1,9 +1,9 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:new, :create]
+  before_action :set_gon, only: [:new, :create]
 
   def new
-    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @purchase_address = PurchaseAddress.new
     if @item.purchase || current_user == @item.user
       redirect_to root_path
@@ -38,5 +38,9 @@ class PurchasesController < ApplicationController
       card: purchase_params[:token],    # カードトークン
       currency: 'jpy'                 # 通貨の種類（日本円）
     )
+  end
+
+  def set_gon
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
   end
 end
